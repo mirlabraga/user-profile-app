@@ -13,10 +13,6 @@ export const users = [{
   "company": "Xerini",
   "preferences": {
     "contact": ["mail", "sms"]
-  },
-  "credential": {
-    "username": "jon",
-    "password": "test"
   }
 },
 {
@@ -34,10 +30,6 @@ export const users = [{
   "company": "Test1",
   "preferences": {
     "contact": ["mail", "sms"]
-  },
-  "credential": {
-    "username": "mirla",
-    "password": "1234"
   }
 }
 ];

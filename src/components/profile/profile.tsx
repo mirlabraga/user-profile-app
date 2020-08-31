@@ -4,7 +4,7 @@ import { Grid, Paper } from '@material-ui/core';
 import Chart from '../dashboard/Chart';
 import Deposits from '../dashboard/Deposits';
 import clsx from 'clsx';
-import Orders from '../dashboard/Orders';
+import Orders from '../users/Users';
 
 const drawerWidth = 240;
 

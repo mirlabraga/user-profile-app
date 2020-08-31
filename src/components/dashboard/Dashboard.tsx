@@ -79,6 +79,7 @@ export default function Dashboard() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const [menu, setMenu] = React.useState('home');
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
