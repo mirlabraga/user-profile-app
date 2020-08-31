@@ -9,9 +9,11 @@ import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 export const mainListItems = (
   <div>
+    {/* <ListItem button onClick={ (event) => history.push("/dashboard") }> */}
     <ListItem button>
       <ListItemIcon>
         <DashboardIcon />
@@ -65,6 +67,17 @@ export const secondaryListItems = (
         <AssignmentIcon />
       </ListItemIcon>
       <ListItemText primary="Year-end sale" />
+    </ListItem>
+  </div>
+);
+
+export const logoutListItems = (
+  <div>
+    <ListItem button>
+      <ListItemIcon>
+        <ExitToAppIcon />
+      </ListItemIcon>
+      <ListItemText primary="Logout" />
     </ListItem>
   </div>
 );

@@ -12,8 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { Route, BrowserRouter as Router, Link as RouterLink, useHistory } from 'react-router-dom'
-import { users } from '../../models/users';
+import { BrowserRouter as Router, Link as RouterLink, useHistory } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -59,11 +58,7 @@ export default function SignIn() {
     const hasUserPassword = user !== undefined && password !== undefined;
 
     if (hasUserPassword) {
-      const resultUsers = users.filter((currentUser: any) =>
-        currentUser.credential.username === user && currentUser.credential.password === password);
-      if (resultUsers && resultUsers.length > 0) {
-        history.push("/dashboard");
-      }
+      history.push("/dashboard");
     }
   };
 
