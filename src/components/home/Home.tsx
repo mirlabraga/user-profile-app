@@ -4,7 +4,6 @@ import { Grid, Paper } from '@material-ui/core';
 import Chart from '../dashboard/Chart';
 import Deposits from '../dashboard/Deposits';
 import clsx from 'clsx';
-import Orders from '../users/Users';
 
 const drawerWidth = 240;
 
@@ -111,11 +110,6 @@ export default function Home() {
         <Deposits />
       </Paper>
     </Grid>
-    {/* Recent Orders */}
-    <Grid item xs={12}>
-      <Paper className={classes.paper}>
-        <Orders />
-      </Paper>
-    </Grid>
+
   </Grid>);
 }

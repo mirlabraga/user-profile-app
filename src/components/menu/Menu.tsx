@@ -69,7 +69,8 @@ export default function Menu(props: PropMenuTypes) {
 
   const handleClick = async (target: string) => {
     try {
-      props.onChange(target);
+      // props.onChange(target);
+      history.push(target);
     } catch (error) {
       console.error("[error] something happen when the menu was selected!")
     }
@@ -95,7 +96,7 @@ export default function Menu(props: PropMenuTypes) {
               <ListItemIcon>
                 <HomeIcon />
               </ListItemIcon>
-              <ListItemText primary="Home" onClick={() => handleClick('home')} />
+              <ListItemText primary="Home" onClick={() => handleClick('/')} />
             </ListItem>
           </div>
         </List>
@@ -106,7 +107,7 @@ export default function Menu(props: PropMenuTypes) {
               <ListItemIcon>
                 <PersonIcon />
               </ListItemIcon>
-              <ListItemText primary="Profile" onClick={() => handleClick('profile')} />
+              <ListItemText primary="Profile" onClick={() => handleClick('/profile')} />
             </ListItem>
           </div>
         </List>
