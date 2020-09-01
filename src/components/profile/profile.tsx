@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Paper } from '@material-ui/core';
-import Users from '../users/Users';
+import Users from '../users/UserList/Users';
 import { useStyles } from "./Profile.css";
 
 export default function Profile() {

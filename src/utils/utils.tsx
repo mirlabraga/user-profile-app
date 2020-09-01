@@ -1,29 +1,40 @@
+import fs from 'fs'
 
-function descendingComparator(a: any, b: any, orderBy: any) {
+function descendingComparator (a: any, b: any, orderBy: any) {
   if (b[orderBy] < a[orderBy]) {
-    return -1;
+    return -1
   }
   if (b[orderBy] > a[orderBy]) {
-    return 1;
+    return 1
   }
-  return 0;
+  return 0
 }
 
 export default class Utils {
-
-  static getComparator(order: any, orderBy: any) {
+  static getComparator (order: any, orderBy: any) {
     return order === 'desc'
       ? (a: any, b: any) => descendingComparator(a, b, orderBy)
-      : (a: any, b: any) => -descendingComparator(a, b, orderBy);
+      : (a: any, b: any) => -descendingComparator(a, b, orderBy)
   }
 
-  static stableSort(array: any, comparator: any) {
-    const stabilizedThis = array.map((el: any, index: any) => [el, index]);
+  static stableSort (array: any, comparator: any) {
+    const stabilizedThis = array.map((el: any, index: any) => [el, index])
     stabilizedThis.sort((a: any, b: any) => {
-      const order = comparator(a[0], b[0]);
-      if (order !== 0) return order;
-      return a[1] - b[1];
-    });
-    return stabilizedThis.map((el: any) => el[0]);
+      const order = comparator(a[0], b[0])
+      if (order !== 0) return order
+      return a[1] - b[1]
+    })
+    return stabilizedThis.map((el: any) => el[0])
+  }
+
+  static writeJsonFile (file: any, jsonObject: any) {
+    const jsonString = JSON.stringify(jsonObject)
+    fs.writeFile(file, jsonString, err => {
+      if (err) {
+        console.log('Error writing file', err)
+      } else {
+        console.log('Successfully wrote file')
+      }
+    })
   }
 }

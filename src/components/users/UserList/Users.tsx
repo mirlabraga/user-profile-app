@@ -1,5 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -7,39 +6,13 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Switch from '@material-ui/core/Switch';
-import { users } from '../../models/users';
 import { Button, TablePagination, FormControlLabel, Checkbox } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
-import UsersListHead from './UsersListHead';
-import UsersListToolbar from './UsersListToolbar/UsersListToolbar';
-import Utils from '../../utils/utils'
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
-  },
-  paper: {
-    width: '100%',
-    marginBottom: theme.spacing(2),
-  },
-  table: {
-    minWidth: 750,
-  },
-  visuallyHidden: {
-    border: 0,
-    clip: 'rect(0 0 0 0)',
-    height: 1,
-    margin: -1,
-    overflow: 'hidden',
-    padding: 0,
-    position: 'absolute',
-    top: 20,
-    width: 1,
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
+import UsersListHead from '../UsersListHead';
+import UsersListToolbar from '../UsersListToolbar/UsersListToolbar';
+import Utils from '../../../utils/utils'
+import { useStyles } from './Users.css';
+import file from "../../../users.json";
 
 export default function Users() {
   const classes = useStyles();
@@ -92,7 +65,7 @@ export default function Users() {
 
   const isSelected = (id: string) => selected.indexOf(id) !== -1;
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, users.length - page * rowsPerPage);
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, file.users.length - page * rowsPerPage);
 
   return (
     <div className={classes.root}>
@@ -111,10 +84,10 @@ export default function Users() {
               order={order}
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
-              rowCount={users.length}
+              rowCount={file.users.length}
             />
             <TableBody>
-              {Utils.stableSort(users, Utils.getComparator(order, orderBy))
+              {Utils.stableSort(file.users, Utils.getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row: any, index: any) => {
                   const isItemSelected = isSelected(row);
@@ -157,7 +130,7 @@ export default function Users() {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={users.length}
+          count={file.users.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}
