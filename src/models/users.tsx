@@ -48,5 +48,39 @@ export const users = [{
   "preferences": {
     "contact": ["mail", "sms"]
   }
+},
+{
+  "id": "4",
+  "first_name": "Julia",
+  "other_names": "Chucre",
+  "address": {
+    "street": "70 Queenways Street",
+    "town": "Banbury",
+    "county": "Banbury",
+    "postcode": "OX16 JK8"
+  },
+  "mobile": "23232 22822",
+  "email": "julia@gmail.com",
+  "company": "Test2",
+  "preferences": {
+    "contact": ["mail", "sms"]
+  }
+},
+{
+  "id": "4",
+  "first_name": "Fernanda",
+  "other_names": "Chucre",
+  "address": {
+    "street": "70 Queenways Street",
+    "town": "Banbury",
+    "county": "Banbury",
+    "postcode": "OX16 JK8"
+  },
+  "mobile": "01111 22822",
+  "email": "fernanda@gmail.com",
+  "company": "Test5",
+  "preferences": {
+    "contact": ["mail", "sms"]
+  }
 }
 ];

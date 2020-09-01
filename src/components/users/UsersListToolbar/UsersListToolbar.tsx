@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { lighten, makeStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import { Button } from '@material-ui/core';
-import { BrowserRouter as Router, Link as RouterLink, useHistory } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
 import Dialog from '@material-ui/core/Dialog';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -17,36 +15,9 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import { TransitionProps } from '@material-ui/core/transitions';
-import UserForm from './UserForm';
+import UserForm from '../UserForm/UserForm';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import UsersListHead from './UsersListHead';
-
-const useToolbarStyles = makeStyles((theme) => ({
-  root: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(1),
-  },
-  highlight:
-    theme.palette.type === 'light'
-      ? {
-        color: theme.palette.secondary.main,
-        backgroundColor: lighten(theme.palette.primary.light, 0.85),
-      }
-      : {
-        color: theme.palette.text.primary,
-        backgroundColor: theme.palette.secondary.dark,
-      },
-  title: {
-    flex: '1 1 100%',
-  },
-  appBar: {
-    position: 'relative',
-  },
-  titleDialog: {
-    marginLeft: theme.spacing(2),
-    flex: 1,
-  },
-}));
+import { useToolbarStyles } from "./UsersListToolbar.css";
 
 interface UsersListToolbarProps {
   numSelected: number;
@@ -70,7 +41,7 @@ export default function UsersListToolbar (props: UsersListToolbarProps) {
     setOpen(false);
   };
 
-  const Transition = React.forwardRef<unknown, TransitionProps>((props, ref) => <UserForm numSelected={numSelected} user={users[0]} />);
+  const Transition = React.forwardRef<unknown, TransitionProps>((props, ref) => <UserForm onOpenForm={setOpen} user={users[0]} />);
 
   return (
     <div>
@@ -103,7 +74,7 @@ export default function UsersListToolbar (props: UsersListToolbarProps) {
             </Tooltip>
           )}
       </Toolbar>
-      <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
+      <Dialog open={open} onClose={handleClose} TransitionComponent={Transition}>
         <AppBar className={classes.appBar}>
           <Toolbar>
             <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">

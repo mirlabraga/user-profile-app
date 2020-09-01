@@ -1,96 +1,51 @@
 import React from 'react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Grid, Paper, TextField, Button } from '@material-ui/core';
 import clsx from 'clsx';
-import Slide from '@material-ui/core/Slide';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
-import { useHistory } from 'react-router-dom';
-import { users } from '../../models/users';
-import { TransitionProps } from '@material-ui/core/transitions';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      display: 'flex',
-      flexWrap: 'wrap',
-    },
-    textField: {
-      marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1),
-      width: '25ch',
-    },
-    paper: {
-      padding: theme.spacing(2),
-      display: 'flex',
-      overflow: 'auto',
-      flexDirection: 'column',
-    },
-    fixedHeight: {
-      height: 440,
-    },
-    appBar: {
-      position: 'relative',
-    },
-    title: {
-      marginLeft: theme.spacing(2),
-      flex: 1,
-    },
-  }),
-);
-
-const Transition = React.forwardRef(function Transition(
-  props: TransitionProps & { children?: React.ReactElement },
-  ref: React.Ref<unknown>,
-) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+import { users } from '../../../models/users';
+import { useStyles } from "./UserForm.css";
 
 interface UsersFormProps {
-  numSelected: number;
   user: any;
+  onOpenForm: (open: boolean) => void;
 }
 
 export default function UserForm(props: UsersFormProps) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
   const { user } = props;
   const [firstName, setFirstName] = React.useState<string>(props.user.first_name);
-  const history = useHistory();
-
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const [disable, setDisable] = React.useState(false);
 
   const handleClose = () => {
-    setOpen(false);
+    props.onOpenForm(false);
   };
 
   const updateUser = (event: any) => {
     for (var i = 0; i < users.length; i++) {
-      if (users[i].id == user.id) {
-        //users[i].first_name = firstName;
+      if (users[i].id === user.id) {
+        users[i].first_name = firstName;
       }
     }
+
+    setDisable(true);
   }
 
-  console.log('props inside UsersForm', props.user)
-
   return (
+
     <Grid container spacing={3}>
       <Grid item xs={12} md={8} lg={9}>
         <Paper className={fixedHeightPaper}>
           <TextField
-            id="outlined-full-width"
             label="First Name"
+            id="outlined-full-width"
             style={{ margin: 8 }}
-            placeholder={props.user.id}
-            fullWidth
-            margin="normal"
-            value={firstName}
+            defaultValue="Default Value"
+            className={classes.textField}
             variant="outlined"
+            disabled={disable}
+            value={props.user.first_name}
             onChange={(props: any) => {
               if (props && props.target && props.target.value) {
                 setFirstName(props.target.value);
@@ -104,6 +59,7 @@ export default function UserForm(props: UsersFormProps) {
             defaultValue="Default Value"
             className={classes.textField}
             variant="outlined"
+            disabled={disable}
             value={props.user.other_names}
           />
           <TextField
@@ -112,6 +68,7 @@ export default function UserForm(props: UsersFormProps) {
             defaultValue="Default Value"
             className={classes.textField}
             margin="dense"
+            disabled={disable}
             variant="outlined"
             value={props.user.mobile}
           />
@@ -120,39 +77,67 @@ export default function UserForm(props: UsersFormProps) {
             id="outlined-margin-normal"
             defaultValue="Default Value"
             className={classes.textField}
+            disabled={disable}
             margin="normal"
             variant="outlined"
             value={props.user.email}
           />
           <TextField
-            label="Normal"
+            label="Company"
             id="outlined-margin-normal"
             defaultValue="Default Value"
             className={classes.textField}
+            disabled={disable}
             margin="normal"
             variant="outlined"
             value={props.user.company}
           />
           <Grid container alignItems="flex-end" justify="flex-end" direction="row">
             <Grid item xs={2}>
-              <Button type="submit"
-                variant="contained"
-                color="primary"
-                endIcon={<SaveIcon />}
-                onClick={(event: any) => updateUser(event)}
-                >
-                Save
-          </Button>
+              {
+                !disable ?
+                  <Button type="submit"
+                    variant="contained"
+                    color="primary"
+                    endIcon={<SaveIcon />}
+                    onClick={(event: any) => updateUser(event)}
+                  >
+                    Save
+                </Button> :
+                  <div></div>
+              }
+
             </Grid>
             <Grid item xs={2}>
-              <Button type="submit"
-                variant="contained"
-                color="primary"
-                endIcon={<CancelIcon />}
-                onClick={() => { history.push("/dashboard") }}
-              >
-                Cancel
-          </Button>
+              {
+                !disable ?
+                  <Button type="submit"
+                    variant="contained"
+                    color="primary"
+                    endIcon={<CancelIcon />}
+                    onClick={(event: any) => handleClose()}
+                    hidden={disable}
+                  >
+                    Cancel
+              </Button> : <div></div>
+              }
+
+            </Grid>
+            <Grid item xs={2}>
+              {
+                disable ?
+
+                  <Button type="submit"
+                    variant="contained"
+                    color="primary"
+                    endIcon={<CancelIcon />}
+                    onClick={(event: any) => handleClose()}
+                    hidden={!disable}
+                  >
+                    Back
+              </Button>
+                  : <div></div>
+              }
             </Grid>
           </Grid>
         </Paper>

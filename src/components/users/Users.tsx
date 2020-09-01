@@ -9,9 +9,9 @@ import Paper from '@material-ui/core/Paper';
 import Switch from '@material-ui/core/Switch';
 import { users } from '../../models/users';
 import { Button, TablePagination, FormControlLabel, Checkbox } from '@material-ui/core';
-import { BrowserRouter as Router, Link as RouterLink, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import UsersListHead from './UsersListHead';
-import UsersListToolbar from './UsersListToolbar';
+import UsersListToolbar from './UsersListToolbar/UsersListToolbar';
 import Utils from '../../utils/utils'
 
 const useStyles = makeStyles((theme) => ({
@@ -55,15 +55,6 @@ export default function Users() {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event: any) => {
-    if (event.target.checked) {
-      const newSelecteds: any = users.map((n: any) => n.id);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
   };
 
   const handleClick = (event: React.MouseEvent<unknown>, id: string) => {
@@ -119,7 +110,6 @@ export default function Users() {
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={users.length}
             />
