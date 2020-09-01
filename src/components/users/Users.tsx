@@ -1,240 +1,19 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import { lighten, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
-import Tooltip from '@material-ui/core/Tooltip';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import FilterListIcon from '@material-ui/icons/FilterList';
 import { users } from '../../models/users';
-import { Button } from '@material-ui/core';
+import { Button, TablePagination, FormControlLabel, Checkbox } from '@material-ui/core';
 import { BrowserRouter as Router, Link as RouterLink, useHistory } from 'react-router-dom';
-import EditIcon from '@material-ui/icons/Edit';
-import Dialog from '@material-ui/core/Dialog';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItem from '@material-ui/core/ListItem';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
-import { TransitionProps } from '@material-ui/core/transitions';
-import UserForm from './UserForm';
-
-function descendingComparator(a: any, b: any, orderBy: any) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(order: any, orderBy: any) {
-  return order === 'desc'
-    ? (a: any, b: any) => descendingComparator(a, b, orderBy)
-    : (a: any, b: any) => -descendingComparator(a, b, orderBy);
-}
-
-function stableSort(array: any, comparator: any) {
-  const stabilizedThis = array.map((el: any, index: any) => [el, index]);
-  stabilizedThis.sort((a: any, b: any) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el: any) => el[0]);
-}
-
-const headCells = [
-  { id: 'first_name', numeric: false, disablePadding: true, label: 'Name' },
-  { id: 'address', numeric: false, disablePadding: false, label: 'Address' },
-  { id: 'mobile', numeric: false, disablePadding: false, label: 'Mobile' },
-  { id: 'email', numeric: false, disablePadding: false, label: 'Email' },
-  { id: 'company', numeric: false, disablePadding: false, label: 'Company' },
-];
-
-function EnhancedTableHead(props: any) {
-  const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
-  const createSortHandler = (property: any) => (event: any) => {
-    onRequestSort(event, property);
-  };
-
-  const [open, setOpen] = React.useState(false);
-
-  return (
-    <TableHead>
-      <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{ 'aria-label': 'select all desserts' }}
-          />
-        </TableCell>
-        {headCells.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'default'}
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <span className={classes.visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </span>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
-}
-
-EnhancedTableHead.propTypes = {
-  classes: PropTypes.object.isRequired,
-  numSelected: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
-};
-
-const useToolbarStyles = makeStyles((theme) => ({
-  root: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(1),
-  },
-  highlight:
-    theme.palette.type === 'light'
-      ? {
-        color: theme.palette.secondary.main,
-        backgroundColor: lighten(theme.palette.primary.light, 0.85),
-      }
-      : {
-        color: theme.palette.text.primary,
-        backgroundColor: theme.palette.secondary.dark,
-      },
-  title: {
-    flex: '1 1 100%',
-  },
-  appBar: {
-    position: 'relative',
-  },
-  titleDialog: {
-    marginLeft: theme.spacing(2),
-    flex: 1,
-  },
-}));
-
-interface EnhancedTableToolbarProps {
-  numSelected: number;
-  users: any;
-}
-
-const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
-  const classes = useToolbarStyles();
-  const { numSelected, users } = props;
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    try {
-      setOpen(true);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const Transition = React.forwardRef<unknown, TransitionProps>((props) => <UserForm numSelected={numSelected} user={users[0]} />);
-
-  return (
-    <div>
-      <Toolbar
-        className={clsx(classes.root, {
-          [classes.highlight]: numSelected > 0,
-        })}
-      >
-        {numSelected > 0 ? (
-          <Typography className={classes.title} color="primary" variant="subtitle1" component="div">
-            {numSelected} selected
-          </Typography>
-        ) : (
-            <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-              Users
-            </Typography>
-          )}
-
-        {numSelected > 0 ? (
-          <Tooltip title="Edit">
-            <IconButton aria-label="edit" onClick={handleClickOpen}>
-              <EditIcon />
-            </IconButton>
-          </Tooltip>
-        ) : (
-            <Tooltip title="Filter list">
-              <IconButton aria-label="filter list">
-                <FilterListIcon />
-              </IconButton>
-            </Tooltip>
-          )}
-      </Toolbar>
-      <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
-        <AppBar className={classes.appBar}>
-          <Toolbar>
-            <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
-              <CloseIcon />
-            </IconButton>
-            <Typography variant="h6" className={classes.titleDialog}>
-              Sound
-        </Typography>
-            <Button autoFocus color="inherit" onClick={handleClose}>
-              save
-        </Button>
-          </Toolbar>
-        </AppBar>
-        <List>
-          <ListItem button>
-            <ListItemText primary="Phone ringtone" secondary="Titania" />
-          </ListItem>
-          <Divider />
-          <ListItem button>
-            <ListItemText primary="Default notification ringtone" secondary="Tethys" />
-          </ListItem>
-        </List>
-      </Dialog>
-    </div>
-  );
-};
-
-EnhancedTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-};
+import UsersListHead from './UsersListHead';
+import UsersListToolbar from './UsersListToolbar';
+import Utils from '../../utils/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -328,7 +107,7 @@ export default function Users() {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} users={selected} />
+        <UsersListToolbar numSelected={selected.length} users={selected} />
         <TableContainer>
           <Table
             className={classes.table}
@@ -336,7 +115,7 @@ export default function Users() {
             size={dense ? 'small' : 'medium'}
             aria-label="enhanced table"
           >
-            <EnhancedTableHead
+            <UsersListHead
               classes={classes}
               numSelected={selected.length}
               order={order}
@@ -346,7 +125,7 @@ export default function Users() {
               rowCount={users.length}
             />
             <TableBody>
-              {stableSort(users, getComparator(order, orderBy))
+              {Utils.stableSort(users, Utils.getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row: any, index: any) => {
                   const isItemSelected = isSelected(row);
