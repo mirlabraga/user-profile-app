@@ -48,7 +48,7 @@ interface UsersFormProps {
   user: any;
 }
 
-export default function UsersForm(props: UsersFormProps) {
+export default function UserForm(props: UsersFormProps) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 

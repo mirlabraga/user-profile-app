@@ -30,8 +30,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
-import UsersForm from './UsersForm';
 import { TransitionProps } from '@material-ui/core/transitions';
+import UserForm from './UserForm';
 
 function descendingComparator(a: any, b: any, orderBy: any) {
   if (b[orderBy] < a[orderBy]) {
@@ -171,7 +171,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
     setOpen(false);
   };
 
-  const Transition = React.forwardRef<unknown, TransitionProps>((props) => <UsersForm numSelected={numSelected} user={users[0]} />);
+  const Transition = React.forwardRef<unknown, TransitionProps>((props) => <UserForm numSelected={numSelected} user={users[0]} />);
 
   return (
     <div>
