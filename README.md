@@ -56,7 +56,7 @@ You will also see any lint errors in the console.
 
 ## Application
 
-![](http://g.recordit.co/nW0Rk4VD4s.gif)
+![](http://g.recordit.co/SIcezwpQy8.gif)
 
 
 The application used React and Material UI for more about, please links there:
