@@ -69,7 +69,6 @@ export default function Menu(props: PropMenuTypes) {
 
   const handleClick = async (target: string) => {
     try {
-      // props.onChange(target);
       history.push(target);
     } catch (error) {
       console.error("[error] something happen when the menu was selected!")

@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
   },
   toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
+    paddingRight: 24,
   },
   toolbarIcon: {
     display: 'flex',
@@ -98,13 +98,11 @@ export default function Home() {
 
 
   return (<Grid container spacing={3}>
-    {/* Chart */}
     <Grid item xs={12} md={8} lg={9}>
       <Paper className={fixedHeightPaper}>
         <Chart />
       </Paper>
     </Grid>
-    {/* Recent Deposits */}
     <Grid item xs={12} md={4} lg={3}>
       <Paper className={fixedHeightPaper}>
         <Deposits />

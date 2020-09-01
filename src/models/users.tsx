@@ -31,5 +31,22 @@ export const users = [{
   "preferences": {
     "contact": ["mail", "sms"]
   }
+},
+{
+  "id": "3",
+  "first_name": "Fernando",
+  "other_names": "Chucre",
+  "address": {
+    "street": "70 Queenways Street",
+    "town": "Banbury",
+    "county": "Banbury",
+    "postcode": "OX16 JK8"
+  },
+  "mobile": "01111 22822",
+  "email": "fernando@gmail.com",
+  "company": "Test2",
+  "preferences": {
+    "contact": ["mail", "sms"]
+  }
 }
 ];

@@ -13,7 +13,6 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 export const mainListItems = (
   <div>
-    {/* <ListItem button onClick={ (event) => history.push("/dashboard") }> */}
     <ListItem button>
       <ListItemIcon>
         <DashboardIcon />

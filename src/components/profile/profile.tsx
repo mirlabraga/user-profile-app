@@ -1,10 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Paper } from '@material-ui/core';
-import Chart from '../dashboard/Chart';
-import Deposits from '../dashboard/Deposits';
 import clsx from 'clsx';
-import Orders from '../users/Users';
+import Users from '../users/Users';
 
 const drawerWidth = 240;
 
@@ -13,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
   },
   toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
+    paddingRight: 24,
   },
   toolbarIcon: {
     display: 'flex',
@@ -101,10 +99,9 @@ export default function Profile() {
 
 
   return (<Grid container spacing={3}>
-    {/* Recent Orders */}
     <Grid item xs={12}>
       <Paper className={classes.paper}>
-        <Orders />
+        <Users />
       </Paper>
     </Grid>
   </Grid>);

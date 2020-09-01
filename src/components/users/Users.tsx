@@ -10,19 +10,28 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { users } from '../../models/users';
 import { Button } from '@material-ui/core';
 import { BrowserRouter as Router, Link as RouterLink, useHistory } from 'react-router-dom';
+import EditIcon from '@material-ui/icons/Edit';
+import Dialog from '@material-ui/core/Dialog';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItem from '@material-ui/core/ListItem';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import CloseIcon from '@material-ui/icons/Close';
+import UsersForm from './UsersForm';
+import { TransitionProps } from '@material-ui/core/transitions';
 
 function descendingComparator(a: any, b: any, orderBy: any) {
   if (b[orderBy] < a[orderBy]) {
@@ -63,6 +72,8 @@ function EnhancedTableHead(props: any) {
   const createSortHandler = (property: any) => (event: any) => {
     onRequestSort(event, property);
   };
+
+  const [open, setOpen] = React.useState(false);
 
   return (
     <TableHead>
@@ -119,52 +130,105 @@ const useToolbarStyles = makeStyles((theme) => ({
   highlight:
     theme.palette.type === 'light'
       ? {
-          color: theme.palette.secondary.main,
-          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-        }
+        color: theme.palette.secondary.main,
+        backgroundColor: lighten(theme.palette.primary.light, 0.85),
+      }
       : {
-          color: theme.palette.text.primary,
-          backgroundColor: theme.palette.secondary.dark,
-        },
+        color: theme.palette.text.primary,
+        backgroundColor: theme.palette.secondary.dark,
+      },
   title: {
     flex: '1 1 100%',
   },
+  appBar: {
+    position: 'relative',
+  },
+  titleDialog: {
+    marginLeft: theme.spacing(2),
+    flex: 1,
+  },
 }));
 
-const EnhancedTableToolbar = (props: any) => {
+interface EnhancedTableToolbarProps {
+  numSelected: number;
+  users: any;
+}
+
+const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   const classes = useToolbarStyles();
-  const { numSelected } = props;
+  const { numSelected, users } = props;
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    try {
+      setOpen(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const Transition = React.forwardRef<unknown, TransitionProps>((props) => <UsersForm numSelected={numSelected} user={users[0]} />);
 
   return (
-    <Toolbar
-      className={clsx(classes.root, {
-        [classes.highlight]: numSelected > 0,
-      })}
-    >
-      {numSelected > 0 ? (
-        <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-          Users
-        </Typography>
-      )}
+    <div>
+      <Toolbar
+        className={clsx(classes.root, {
+          [classes.highlight]: numSelected > 0,
+        })}
+      >
+        {numSelected > 0 ? (
+          <Typography className={classes.title} color="primary" variant="subtitle1" component="div">
+            {numSelected} selected
+          </Typography>
+        ) : (
+            <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
+              Users
+            </Typography>
+          )}
 
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton aria-label="delete">
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton aria-label="filter list">
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
-    </Toolbar>
+        {numSelected > 0 ? (
+          <Tooltip title="Edit">
+            <IconButton aria-label="edit" onClick={handleClickOpen}>
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
+        ) : (
+            <Tooltip title="Filter list">
+              <IconButton aria-label="filter list">
+                <FilterListIcon />
+              </IconButton>
+            </Tooltip>
+          )}
+      </Toolbar>
+      <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
+        <AppBar className={classes.appBar}>
+          <Toolbar>
+            <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
+              <CloseIcon />
+            </IconButton>
+            <Typography variant="h6" className={classes.titleDialog}>
+              Sound
+        </Typography>
+            <Button autoFocus color="inherit" onClick={handleClose}>
+              save
+        </Button>
+          </Toolbar>
+        </AppBar>
+        <List>
+          <ListItem button>
+            <ListItemText primary="Phone ringtone" secondary="Titania" />
+          </ListItem>
+          <Divider />
+          <ListItem button>
+            <ListItemText primary="Default notification ringtone" secondary="Tethys" />
+          </ListItem>
+        </List>
+      </Dialog>
+    </div>
   );
 };
 
@@ -264,7 +328,7 @@ export default function Users() {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar numSelected={selected.length} users={selected} />
         <TableContainer>
           <Table
             className={classes.table}
@@ -285,13 +349,13 @@ export default function Users() {
               {stableSort(users, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row: any, index: any) => {
-                  const isItemSelected = isSelected(row.id);
+                  const isItemSelected = isSelected(row);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.id)}
+                      onClick={(event) => handleClick(event, row)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
@@ -342,8 +406,8 @@ export default function Users() {
         variant="contained"
         color="primary"
         className={classes.submit}
-        onClick={() => { history.push("/dashboard")}}
-        >
+        onClick={() => { history.push("/dashboard") }}
+      >
         Cancel
       </Button>
     </div>
