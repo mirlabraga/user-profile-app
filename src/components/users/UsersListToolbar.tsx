@@ -70,7 +70,7 @@ export default function UsersListToolbar (props: UsersListToolbarProps) {
     setOpen(false);
   };
 
-  const Transition = React.forwardRef<unknown, TransitionProps>((props) => <UserForm numSelected={numSelected} user={users[0]} />);
+  const Transition = React.forwardRef<unknown, TransitionProps>((props, ref) => <UserForm numSelected={numSelected} user={users[0]} />);
 
   return (
     <div>

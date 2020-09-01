@@ -59,6 +59,10 @@ You will also see any lint errors in the console.
 ![](https://s3.amazonaws.com/img0.recordit.co/nW0Rk4VD4s.mp4?AWSAccessKeyId=AKIAUQ5RURZ7ND2T2B6I&Expires=1598967096&Signature=DW7TNzKuXgj%2B7lh5lghyoO%2F1Huw%3D)
 
 
+The application used React and Material UI for more about, please links there:
+[React](https://reactjs.org/) framework easy to develop, deploy and test where for building goods interfaces. [Material UI React](https://material-ui.com/)
+
+
 ## Test
 
 ```bash
