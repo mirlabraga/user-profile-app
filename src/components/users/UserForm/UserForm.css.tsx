@@ -12,13 +12,14 @@ export const useStyles = makeStyles((theme: Theme) =>
       width: '25ch',
     },
     paper: {
-      padding: theme.spacing(2),
-      display: 'flex',
+      padding: theme.spacing(1),
+      position: "relative",
       overflow: 'auto',
       flexDirection: 'column',
     },
     fixedHeight: {
       height: 440,
+      width: 850,
     },
     appBar: {
       position: 'relative',

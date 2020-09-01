@@ -6,12 +6,13 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Switch from '@material-ui/core/Switch';
-import { Button, TablePagination, FormControlLabel, Checkbox } from '@material-ui/core';
+import { Button, TablePagination, FormControlLabel, Checkbox, Grid } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import UsersListHead from '../UsersListHead';
 import UsersListToolbar from '../UsersListToolbar/UsersListToolbar';
 import Utils from '../../../utils/utils'
 import { useStyles } from './Users.css';
+import CancelIcon from '@material-ui/icons/Cancel';
 import file from "../../../users.json";
 
 export default function Users() {
@@ -141,16 +142,19 @@ export default function Users() {
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Dense padding"
       />
-      <Button
-        type="submit"
-        fullWidth
-        variant="contained"
-        color="primary"
-        className={classes.submit}
-        onClick={() => { history.push("/dashboard") }}
-      >
-        Cancel
-      </Button>
+      <Grid item xs={1}>
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          endIcon={<CancelIcon />}
+          className={classes.submit}
+          onClick={() => { history.push("/dashboard") }}
+        >
+          Cancel
+        </Button>
+      </Grid>
     </div>
   );
 }

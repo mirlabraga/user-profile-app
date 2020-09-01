@@ -74,7 +74,7 @@ export default function UsersListToolbar (props: UsersListToolbarProps) {
             </Tooltip>
           )}
       </Toolbar>
-      <Dialog open={open} onClose={handleClose} TransitionComponent={Transition}>
+      <Dialog open={open} onClose={handleClose} TransitionComponent={Transition}  classes={{ paper: classes.fullDialog }}>
         <AppBar className={classes.appBar}>
           <Toolbar>
             <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">

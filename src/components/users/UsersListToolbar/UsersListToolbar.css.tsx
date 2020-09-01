@@ -25,4 +25,11 @@ export const useToolbarStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(2),
     flex: 1,
   },
+  fullDialog: {
+    maxHeight: "100vh",
+    minHeight: "100vh",
+    position: "relative",
+    right: "149px",
+    width: "300px"
+  }
 }));
